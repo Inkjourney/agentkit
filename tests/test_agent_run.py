@@ -20,7 +20,6 @@ from agentkit.errors import ProviderError
 from agentkit.llm.base import BaseLLMProvider
 from agentkit.llm.types import (
     ConversationItem,
-    GenerationOptions,
     MessageItem,
     StatePatch,
     ToolCallItem,

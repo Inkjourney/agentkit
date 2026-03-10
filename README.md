@@ -1,4 +1,4 @@
-# Agentkit
+# AgentKit
 
 一个基于 LLM 的通用 Agent 框架，支持 workspace 隔离、统一 LLM 抽象、工具调用循环、CLI 与 Python SDK。
 
@@ -16,18 +16,33 @@
 - Agent loop：模型推理与工具执行闭环，受 step/time budget 约束
 - runlog：每次任务写入 `workspace/logs/run_<run_id>.jsonl`
 
-> [!WARNING]
-> 目前仅 `OpenAI chat_completions`、Qwen 和 vLLM 已经过测试。
-> 其余 Provider 尚未测试，不保证可以成功使用。
+## 状态
+
+- 当前仓库包含针对 Agent loop、CLI、工具系统、runlog 以及 OpenAI / Anthropic / Gemini / Qwen / vLLM provider 适配层的单元测试
+- 尚未提供针对真实上游 API 的集成 smoke test，因此正式发布前仍建议用目标模型做一次端到端验证
 
 ## 文档
 
 详细使用说明和完整文档见 `docs/agentkit/`。
 
-## 安装
+## 从源码安装
 
 ```bash
 uv sync
+uv run agentkit --help
+```
+
+## 从 PyPI 安装
+
+```bash
+pip install base-agentkit
+agentkit --help
+```
+
+安装后的导入路径和 CLI 名称保持不变：
+
+```python
+from agentkit import create_agent
 ```
 
 ## 配置示例

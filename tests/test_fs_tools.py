@@ -3,6 +3,7 @@ from __future__ import annotations
 from agentkit.tools.library.fs_tools import build_tools
 from agentkit.tools.registry import ToolRegistry
 from agentkit.tools.types import ToolCallOutcome, ToolInvocation
+from agentkit.workspace.fs import WorkspaceFS
 
 
 def _execute(

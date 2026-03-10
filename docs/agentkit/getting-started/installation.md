@@ -5,6 +5,16 @@
 - Python 3.12+
 - [`uv`](https://docs.astral.sh/uv/) (recommended for this workspace)
 
+## Install From PyPI
+
+```bash
+pip install base-agentkit
+agentkit --help
+```
+
+The published distribution name is `base-agentkit`, while the import package and
+CLI entry point remain `agentkit`.
+
 ## Install In This Repository
 
 From the repository root:
@@ -13,8 +23,8 @@ From the repository root:
 uv sync
 ```
 
-This installs the workspace packages, including `agentkit`, and exposes the
-`agentkit` CLI entry point defined in the repository root `pyproject.toml`.
+This installs the workspace package in editable mode and exposes the `agentkit`
+CLI entry point defined in the repository root `pyproject.toml`.
 
 ## Verify Installation
 

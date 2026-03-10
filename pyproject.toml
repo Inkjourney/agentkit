@@ -1,10 +1,22 @@
 [project]
-name = "agentkit"
+name = "base-agentkit"
 version = "0.1.0"
-description = "Add your description here"
+description = "Workspace-isolated Python framework for building tool-using LLM agents."
 readme = "README.md"
 authors = [{ name = "sii-nyc", email = "253108120111@sii.edu.cn" }]
 requires-python = ">=3.12"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+keywords = ["agents", "llm", "tool-calling", "workspace", "ai"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Typing :: Typed",
+]
 dependencies = [
     "openai>=2.21.0",
     "pydantic>=2.12.5",
@@ -15,9 +27,15 @@ dependencies = [
 [project.scripts]
 agentkit = "agentkit.cli.main:main"
 
+[project.urls]
+Homepage = "https://github.com/Inkjourney/agentkit"
+Repository = "https://github.com/Inkjourney/agentkit"
+Documentation = "https://github.com/Inkjourney/agentkit/tree/main/docs/agentkit"
+Issues = "https://github.com/Inkjourney/agentkit/issues"
+
 [dependency-groups]
 dev = [
-    "mkdocs>=1.6.1",
+    "mkdocs>=1.6.1,<2",
     "mkdocs-material>=9.7.1",
     "mkdocstrings[python]>=1.0.3",
     "pytest>=8.4.2",
@@ -27,6 +45,9 @@ dev = [
 [build-system]
 requires = ["uv_build>=0.9.17,<0.10.0"]
 build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "agentkit"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
