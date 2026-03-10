@@ -9,14 +9,14 @@ uv sync
 ## Run Tests
 
 ```bash
-uv run pytest packages/agentkit/tests
+uv run pytest tests
 ```
 
 When changing one area, run the narrowest relevant slice first. Examples:
 
 ```bash
-uv run pytest packages/agentkit/tests/test_openai_provider.py
-uv run pytest packages/agentkit/tests/test_fs_tools.py
+uv run pytest tests/test_openai_provider.py
+uv run pytest tests/test_fs_tools.py
 ```
 
 ## Build Documentation

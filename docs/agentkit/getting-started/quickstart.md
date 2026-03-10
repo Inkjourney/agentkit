@@ -76,7 +76,7 @@ print("run log:", report.runlog_path)
 ## 4. Run From CLI
 
 ```bash
-uv run llm-agent --config agentkit.quickstart.yaml run \
+uv run agentkit --config agentkit.quickstart.yaml run \
   --task "List files in this workspace" \
   --report-json ./report.json
 ```

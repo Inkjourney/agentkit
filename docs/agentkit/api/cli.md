@@ -3,7 +3,7 @@
 ## Overview
 
 The CLI surface currently lives in `agentkit.cli.main` and powers the
-`llm-agent` entry point declared in `packages/agentkit/pyproject.toml`.
+`agentkit` entry point declared in the repository root `pyproject.toml`.
 
 ## Key Functions
 

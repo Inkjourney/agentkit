@@ -10,7 +10,7 @@
 Show CLI help.
 
 ```bash
-uv run llm-agent --help
+uv run agentkit --help
 ```
 
 ## Step 2
@@ -18,7 +18,7 @@ uv run llm-agent --help
 Run with inline task.
 
 ```bash
-uv run llm-agent --config agentkit.quickstart.yaml run --task "List files in workspace"
+uv run agentkit --config agentkit.quickstart.yaml run --task "List files in workspace"
 ```
 
 ## Step 3
@@ -26,7 +26,7 @@ uv run llm-agent --config agentkit.quickstart.yaml run --task "List files in wor
 Run with a task file instead of inline text.
 
 ```bash
-uv run llm-agent --config agentkit.quickstart.yaml run \
+uv run agentkit --config agentkit.quickstart.yaml run \
   --task-file ./task.txt
 ```
 
@@ -35,7 +35,7 @@ uv run llm-agent --config agentkit.quickstart.yaml run \
 Persist run report JSON.
 
 ```bash
-uv run llm-agent --config agentkit.quickstart.yaml run \
+uv run agentkit --config agentkit.quickstart.yaml run \
   --task "Create notes/cli.txt with one line" \
   --report-json ./report.json
 ```
@@ -45,7 +45,7 @@ uv run llm-agent --config agentkit.quickstart.yaml run \
 ```bash
 export OPENAI_API_KEY="your-key"
 
-uv run llm-agent --config agentkit.quickstart.yaml run \
+uv run agentkit --config agentkit.quickstart.yaml run \
   --task "Create notes/meeting.txt and write a summary" \
   --report-json ./report.json
 ```

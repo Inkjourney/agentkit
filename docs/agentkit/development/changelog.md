@@ -36,4 +36,4 @@ Initial AgentKit release in this repository.
 - Built-in filesystem tools (`view`, `create_file`, `str_replace`, `word_count`)
 - Workspace-isolated filesystem facade (`WorkspaceFS`)
 - Structured JSONL run logging and canonical run events
-- CLI entrypoint (`llm-agent`)
+- CLI entrypoint (`agentkit`)

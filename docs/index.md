@@ -9,12 +9,11 @@ of explicit runtime primitives:
 - `ToolRegistry` and `AgentToolRuntime` expose validated tools to the model
 - `RunRecorder` and `JsonlRunLogSink` emit canonical JSONL run logs
 
-This documentation is maintained against the current source in
-`packages/agentkit/src/agentkit/`.
+This documentation is maintained against the current source in `src/agentkit/`.
 
 !!! note
-    AgentKit lives inside a monorepo. Repository-level docs may discuss other
-    packages, but this site documents the `agentkit` package specifically.
+    Examples and filesystem paths in this site are written for the repository
+    root layout used by this project.
 
 ## Start Here
 

@@ -59,13 +59,13 @@ graph TD
 
 ## Module Inventory
 
-These are the current top-level modules under `packages/agentkit/src/agentkit/`:
+These are the current top-level modules under `src/agentkit/`:
 
 | Module | Responsibility |
 | --- | --- |
 | `agentkit` | Top-level convenience exports such as `create_agent` |
 | `agent` | Runtime loop, budgets, reports, tool runtime |
-| `cli` | `llm-agent` command parser and dispatch |
+| `cli` | `agentkit` command parser and dispatch |
 | `config` | Schema, loader, provider defaults |
 | `constants` | Shared default values |
 | `errors` | Framework exceptions and provider issue metadata |

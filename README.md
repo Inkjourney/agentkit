@@ -27,7 +27,7 @@
 ## 安装
 
 ```bash
-uv sync --package agentkit
+uv sync
 ```
 
 ## 配置示例
@@ -64,7 +64,7 @@ tools:
     - "str_replace"
     - "word_count"
 
-tracing:
+runlog:
   enabled: true
   redact: true
   max_text_chars: 20000
@@ -74,7 +74,7 @@ tracing:
 
 ```bash
 export OPENAI_API_KEY="your-key"
-uv run llm-agent --config examples/config.openai.yaml run --task "列出当前 workspace 的文件"
+uv run agentkit --config path/to/config.yaml run --task "列出当前 workspace 的文件"
 ```
 
 ## Python SDK
@@ -82,7 +82,7 @@ uv run llm-agent --config examples/config.openai.yaml run --task "列出当前 w
 ```python
 from agentkit import create_agent
 
-agent = create_agent("examples/config.openai.yaml")
+agent = create_agent("path/to/config.yaml")
 report = agent.run("在 workspace 里新建 notes/todo.txt 并写入今天计划")
 print(report.final_output)
 ```
@@ -95,7 +95,6 @@ print(report.final_output)
 - `workspace/`: 强隔离文件系统和目录布局
 - `llm/`: 统一抽象、provider base/factory 与四平台 adapter
 - `tools/`: 工具抽象、注册表与自动加载
-- `context/`: 上下文构建与截断
 - `agent/`: budget、report、runtime、Agent loop
 - `runlog/`: 结构化事件、event sink 与 JSONL runlog
 - `cli/`: 命令行入口

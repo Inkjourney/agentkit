@@ -11,3 +11,12 @@ wheels/
 
 # dev
 dev_docs
+site/
+
+# workspace
+**workspace**
+!src/agentkit/workspace/
+!src/agentkit/workspace/**
+src/agentkit/workspace/__pycache__/
+!docs/agentkit/concepts/workspace.md
+!docs/agentkit/api/workspace.md

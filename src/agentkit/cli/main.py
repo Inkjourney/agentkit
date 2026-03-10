@@ -20,7 +20,7 @@ def build_parser() -> argparse.ArgumentParser:
         subcommand.
     """
     parser = argparse.ArgumentParser(
-        prog="llm-agent", description="LLM Agent Framework CLI"
+        prog="agentkit", description="LLM Agent Framework CLI"
     )
     parser.add_argument(
         "--config",

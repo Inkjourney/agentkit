@@ -28,7 +28,7 @@ Use AgentKit when you need agents that can:
 | `workspace` | Strict filesystem isolation |
 | `runlog` | Event model, sink interfaces, and JSONL run logs |
 | `config` | Dataclass config schema + YAML/JSON loader |
-| `cli` | `llm-agent` parser and command dispatch |
+| `cli` | `agentkit` command parser and dispatch |
 | `errors` | Framework exceptions and provider issue metadata |
 
 ## Next Steps

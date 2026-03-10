@@ -14,24 +14,25 @@ uv sync
 ```
 
 This installs the workspace packages, including `agentkit`, and exposes the
-`llm-agent` CLI entry point defined in `packages/agentkit/pyproject.toml`.
+`agentkit` CLI entry point defined in the repository root `pyproject.toml`.
 
 ## Verify Installation
 
 ```bash
-uv run llm-agent --help
+uv run agentkit --help
 ```
 
 If the command succeeds, the package import path and CLI entry point are both
 available.
 
 !!! tip
-    AgentKit is developed as the workspace package at `packages/agentkit`.
+    The package source lives in `src/agentkit`, and the test suite lives in
+    `tests`.
 
 ## Run Tests
 
 ```bash
-uv run pytest packages/agentkit/tests
+uv run pytest tests
 ```
 
 ## Build The Docs
