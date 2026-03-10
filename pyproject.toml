@@ -1,0 +1,33 @@
+[project]
+name = "agentkit"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [{ name = "sii-nyc", email = "253108120111@sii.edu.cn" }]
+requires-python = ">=3.12"
+dependencies = [
+    "openai>=2.21.0",
+    "pydantic>=2.12.5",
+    "pyyaml>=6.0.3",
+    "requests>=2.32.5",
+]
+
+[project.scripts]
+agentkit = "agentkit.cli.main:main"
+
+[dependency-groups]
+dev = [
+    "mkdocs>=1.6.1",
+    "mkdocs-material>=9.7.1",
+    "mkdocstrings[python]>=1.0.3",
+    "pytest>=8.4.2",
+    "ruff>=0.15.5",
+]
+
+[build-system]
+requires = ["uv_build>=0.9.17,<0.10.0"]
+build-backend = "uv_build"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"

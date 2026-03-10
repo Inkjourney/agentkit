@@ -1,0 +1,74 @@
+site_name: AgentKit Documentation
+site_description: Build, run, and extend tool-using LLM agents with AgentKit.
+docs_dir: docs
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - content.code.copy
+    - content.code.annotate
+    - toc.follow
+    - search.suggest
+    - search.highlight
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - toc
+  - pymdownx.highlight
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed
+  - pymdownx.details
+  - pymdownx.snippets
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            show_source: true
+            show_root_heading: true
+
+nav:
+  - Home: index.md
+  - AgentKit:
+      - Overview: agentkit/index.md
+      - Getting Started:
+          - Installation: agentkit/getting-started/installation.md
+          - Quickstart: agentkit/getting-started/quickstart.md
+          - Configuration: agentkit/getting-started/configuration.md
+      - Concepts:
+          - Architecture: agentkit/concepts/architecture.md
+          - Agent Lifecycle: agentkit/concepts/agent-lifecycle.md
+          - LLM Providers: agentkit/concepts/llm-providers.md
+          - Tools System: agentkit/concepts/tools-system.md
+          - Budgets: agentkit/concepts/budgets.md
+          - Run Log: agentkit/concepts/tracing.md
+          - Workspace: agentkit/concepts/workspace.md
+      - Guides:
+          - Custom LLM Provider: agentkit/guides/custom-llm-provider.md
+          - Custom Tools: agentkit/guides/custom-tools.md
+          - Agent From Config: agentkit/guides/agent-from-config.md
+          - CLI Usage: agentkit/guides/cli-usage.md
+      - API Reference:
+          - Agent: agentkit/api/agent.md
+          - LLM: agentkit/api/llm.md
+          - Tools: agentkit/api/tools.md
+          - Config: agentkit/api/config.md
+          - Run Log: agentkit/api/tracing.md
+          - Workspace: agentkit/api/workspace.md
+          - Errors: agentkit/api/errors.md
+          - CLI: agentkit/api/cli.md
+      - Development:
+          - Contributing: agentkit/development/contributing.md
+          - Changelog: agentkit/development/changelog.md
