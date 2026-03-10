@@ -8,7 +8,8 @@
   - CLI: `uv run agentkit --config <file> run --task "..."`.
 - Runtime flow: config load -> workspace init -> provider build -> tool registry/load -> agent loop -> runlog/report.
 - Keep language consistent with the surrounding file:
-  - `README.md` is currently Chinese.
+  - `README.md` is English and links to `docs/README.zh-CN.md`.
+  - `docs/README.zh-CN.md` is Chinese.
   - `docs/agentkit/**`, code, tests, and docstrings are English.
 
 ## Project Layout
