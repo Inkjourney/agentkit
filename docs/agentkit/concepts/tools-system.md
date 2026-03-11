@@ -14,16 +14,17 @@ schema validation, stable error payloads, and allowlist filtering.
 
 ```mermaid
 flowchart TD
-    A[Tool module] --> B[build_tools(fs) or TOOLS]
-    B --> C[load_tools_from_library]
-    C --> D[ToolRegistry.register_many]
-    D --> E[AgentToolRuntime]
-    E --> F[tool schemas in model request]
-    G[ToolCallItem from model] --> E
-    E --> H[ToolRegistry.execute]
-    H --> I[ToolCallOutcome]
-    I --> J[ToolResultItem]
-    J --> K[next model turn inputs]
+    A["Built-in library modules"] --> C[load_tools_from_library]
+    B["Configured tools.entries"] --> D[load_tools_from_entries]
+    C --> E[ToolRegistry.register_many]
+    D --> E
+    E --> F[AgentToolRuntime]
+    F --> G[tool schemas in model request]
+    H[ToolCallItem from model] --> F
+    F --> I[ToolRegistry.execute]
+    I --> J[ToolCallOutcome]
+    J --> K[ToolResultItem]
+    K --> L[next model turn inputs]
 ```
 
 ## Key Classes
@@ -34,6 +35,7 @@ flowchart TD
 | `agentkit.tools.FunctionTool` | Callable-backed tool implementation. |
 | `agentkit.tools.ToolRegistry` | Registers, validates, and executes tools. |
 | `agentkit.tools.ToolModelError` | Tool-defined structured error for model-facing feedback. |
+| `agentkit.tools.load_tools_from_entries` | Loads tool modules from configured file or directory paths. |
 | `agentkit.tools.load_tools_from_library` | Auto-discovers tool modules in `agentkit.tools.library`. |
 | `agentkit.agent.AgentToolRuntime` | Applies allowlist and bridges tool calls/results for agent loop. |
 
@@ -55,7 +57,7 @@ Built-in tools from `agentkit.tools.library.fs_tools`:
 
 ## How It Works
 
-1. Agent initialization loads library modules and registers their tools.
+1. Agent initialization loads built-in library modules plus any configured `tools.entries`, then registers their tools.
 2. Tool schemas are passed to the provider in each model call.
 3. Model outputs `ToolCallItem` values when tool use is needed.
 4. `AgentToolRuntime.execute` validates allowlist and delegates to `ToolRegistry.execute`.
@@ -100,8 +102,8 @@ When `AgentToolRuntime.build_result_item` creates a `ToolResultItem`, the payloa
 
 ## Allowlist Semantics
 
-`Agent.from_config` registers the built-in library first, then constructs
-`AgentToolRuntime(registry, config.tools.allowed)`.
+`Agent.from_config` registers the built-in library, then any configured
+`tools.entries`, then constructs `AgentToolRuntime(registry, config.tools.allowed)`.
 
 !!! warning
     An empty `tools.allowed` list disables all model-visible tools. This is the

@@ -122,6 +122,31 @@ tools:
     assert config.runlog.max_text_chars == 1234
 
 
+def test_load_config_resolves_tool_entries_relative_to_config_file(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setenv("OPENAI_API_KEY", "env-openai-key")
+    tools_dir = tmp_path / "tooling"
+    tools_dir.mkdir()
+    tool_file = tools_dir / "custom_tools.py"
+    tool_file.write_text("# tool module placeholder\n", encoding="utf-8")
+    path = _write(
+        tmp_path / "config.yaml",
+        """
+provider:
+  kind: openai
+tools:
+  entries:
+    - ./tooling/custom_tools.py
+""".strip()
+        + "\n",
+    )
+
+    config = load_config(path)
+
+    assert config.tools.entries == [str(tool_file.resolve())]
+
+
 def test_load_config_respects_api_key_env_override(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
@@ -196,4 +221,24 @@ provider:
     )
 
     with pytest.raises(ConfigError, match="Invalid configuration fields"):
+        load_config(path)
+
+
+def test_load_config_rejects_invalid_tool_entries(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setenv("OPENAI_API_KEY", "env-openai-key")
+    path = _write(
+        tmp_path / "config.yaml",
+        """
+provider:
+  kind: openai
+tools:
+  entries:
+    - ""
+""".strip()
+        + "\n",
+    )
+
+    with pytest.raises(ConfigError, match="tools.entries must be a list of non-empty strings"):
         load_config(path)

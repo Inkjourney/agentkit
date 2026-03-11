@@ -31,7 +31,8 @@ def load_config(
     overrides: Mapping[str, Any] | None = None,
 ) -> AgentkitConfig:
     """Load, merge, expand, and validate framework configuration."""
-    raw = _read_raw_config(path)
+    config_path = Path(path).expanduser()
+    raw = _read_raw_config(config_path)
     if overrides:
         raw = _deep_merge(raw, dict(overrides))
     raw = _expand_env(raw)
@@ -46,6 +47,10 @@ def load_config(
         agent = AgentConfig(budget=budget, **agent_data)
 
         tools = ToolConfig(**raw.get("tools", {}))
+        tools.entries = _resolve_tool_entries(
+            tools.entries,
+            base_dir=config_path.resolve(strict=False).parent,
+        )
         runlog = RunLogConfig(**raw.get("runlog", {}))
     except TypeError as exc:
         raise ConfigError(f"Invalid configuration fields: {exc}") from exc
@@ -106,3 +111,14 @@ def _deep_merge(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any
         else:
             merged[key] = value
     return merged
+
+
+def _resolve_tool_entries(entries: list[str], *, base_dir: Path) -> list[str]:
+    """Resolve configured tool entry paths relative to the config file."""
+    resolved_entries: list[str] = []
+    for entry in entries:
+        candidate = Path(entry).expanduser()
+        if not candidate.is_absolute():
+            candidate = base_dir / candidate
+        resolved_entries.append(str(candidate.resolve(strict=False)))
+    return resolved_entries

@@ -1,5 +1,6 @@
 site_name: AgentKit Documentation
 site_description: Build, run, and extend tool-using LLM agents with AgentKit.
+site_url: https://inkjourney.github.io/agentkit/
 docs_dir: docs
 exclude_docs: README.zh-CN.md
 

@@ -28,6 +28,8 @@ agent:
     max_input_chars: 20000
 
 tools:
+  entries:
+    - ./tools
   allowed:
     - view
     - create_file
@@ -42,7 +44,8 @@ runlog:
 
 !!! warning
     If you omit `tools.allowed`, the agent will expose no tools. Built-in tools are
-    loaded into the registry, but the allowlist still controls model visibility.
+    loaded into the registry together with any configured `tools.entries`, but the
+    allowlist still controls model visibility.
 
 ## Step 2
 

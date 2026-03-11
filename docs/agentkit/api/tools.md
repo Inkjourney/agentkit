@@ -12,6 +12,7 @@ loading, and the built-in filesystem tool library.
 - `ToolInvocation`
 - `ToolCallOutcome`
 - `ToolModelError`
+- `load_tools_from_entries`
 
 ## API Reference
 
@@ -39,6 +40,10 @@ loading, and the built-in filesystem tool library.
 
 `ToolRegistry.execute` accepts `ToolInvocation`, performs JSON-schema-like
 argument validation, and returns `ToolCallOutcome`.
+
+`load_tools_from_library(...)` loads built-in modules from
+`agentkit.tools.library`; `load_tools_from_entries(...)` loads user-defined tool
+modules from configured file or directory paths.
 
 Tool success payloads are formatter-defined. Some tools return structured
 dictionaries to the model, while others return plain text strings when a narrated

@@ -98,20 +98,39 @@ edit `ToolRegistry` or `AgentToolRuntime` to define tool-specific model feedback
 
 ## Step 5
 
-If you place your custom tool module under `agentkit.tools.library`, you can let
-`load_tools_from_library` discover and register it automatically.
+Load custom tools through `tools.entries`.
 
-Library modules are discovered when they expose one of these:
+After installing AgentKit, keep your custom tool modules in your own project and
+point config at either:
+
+- a Python file such as `./tools/slugify.py`
+- a directory such as `./tools`
+
+Each loaded module may expose tools via:
 
 - `build_tools(fs)` or `build_tools()`
 - `TOOLS`
 
-Modules whose filename starts with `_` are ignored, which is useful for shared helpers.
+Directory entries behave like a lightweight tool library:
+
+- `__init__.py` is loaded first when present
+- direct child `.py` files are discovered in sorted order
+- child files whose name starts with `_` are ignored for discovery, which is useful for shared helpers
+
+Example project layout:
+
+```text
+my-project/
+├─ agentkit.yaml
+└─ tools/
+   ├─ slugify.py
+   └─ _shared.py
+```
 
 Example module:
 
 ```python
-# agentkit/tools/library/slugify.py
+# tools/slugify.py
 from agentkit.tools.base import FunctionTool
 
 
@@ -132,17 +151,33 @@ TOOLS = [
 ]
 ```
 
-Auto-register everything from the library:
+Example config:
+
+```yaml
+tools:
+  entries:
+    - ./tools
+  allowed:
+    - slugify
+```
+
+Relative `tools.entries` paths are resolved against the config file location.
+
+If you are wiring tools manually in Python, you can load the same entries with
+`load_tools_from_entries(...)`:
 
 ```python
-from agentkit.tools.loader import load_tools_from_library
+from agentkit.tools.loader import load_tools_from_entries
 from agentkit.tools.registry import ToolRegistry
 from agentkit.workspace.fs import WorkspaceFS
 
 workspace_fs = WorkspaceFS("./workspace")
 registry = ToolRegistry()
-registry.register_many(load_tools_from_library(workspace_fs))
+registry.register_many(load_tools_from_entries(["./tools"], workspace_fs))
 ```
+
+AgentKit's own built-in tools still live under `agentkit.tools.library`, but
+user-defined tools no longer need to be added there.
 
 ## Full Example
 

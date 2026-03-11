@@ -31,5 +31,6 @@ and applies provider-specific defaults.
 `load_config(...)` enforces provider API key presence with provider-specific
 defaults.
 
-`tools.entries` and `agent.budget.max_input_chars` are public config fields, but
-the current runtime does not consume them.
+`agent.budget.max_input_chars` is a public config field, but the current runtime
+does not consume it yet. `tools.entries` is consumed by `Agent.from_config` and
+loads custom tool files/directories in addition to the built-in tool library.

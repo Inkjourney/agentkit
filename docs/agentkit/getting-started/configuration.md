@@ -124,14 +124,21 @@ All budget values must be positive.
 | `allowed` | `list[str]` | `[]` |
 | `entries` | `list[str]` | `[]` |
 
-`allowed` controls which registered tools the agent can call.
+`allowed` controls which discovered tools the agent can call.
+
+`entries` lists custom tool files or directories to load in addition to the
+built-in tool library.
 
 !!! warning
     The default `allowed=[]` means the agent exposes no tools, even though
-    `Agent.from_config` still loads the built-in tool library into the registry.
+    `Agent.from_config` still loads the built-in tool library and any configured
+    `tools.entries` into the registry.
 
-!!! note
-    Behavior inferred from code inspection: `tools.entries` exists in schema but is not currently used by `Agent.from_config`, which always loads tools from `agentkit.tools.library`.
+Relative `tools.entries` paths are resolved against the config file location.
+
+Directory entries are discovered in sorted order. `__init__.py` is loaded first
+when present, and child files whose name starts with `_` are ignored during
+directory auto-discovery.
 
 ## `runlog`
 

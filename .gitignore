@@ -1,22 +1,29 @@
-# Python-generated files
+# IDE
+.vscode/
+.idea/
+
+# macOS
+.DS_Store
+
+# Python cache / bytecode
 __pycache__/
-*.py[oc]
+*.py[cod]
+
+# Build / packaging
 build/
 dist/
 wheels/
-*.egg-info
+*.egg-info/
 
 # Virtual environments
-.venv
+.venv/
 
-# dev
-dev_docs
+# Testing
+.pytest_cache/
+
+# Lint / format tools
+.ruff_cache/
+
+# Documentation
+dev_docs/
 site/
-
-# workspace
-**workspace**
-!src/agentkit/workspace/
-!src/agentkit/workspace/**
-src/agentkit/workspace/__pycache__/
-!docs/agentkit/concepts/workspace.md
-!docs/agentkit/api/workspace.md

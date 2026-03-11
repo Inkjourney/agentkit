@@ -25,7 +25,7 @@ from agentkit.llm.types import (
 )
 from agentkit.llm.usage import merge_usage, usage_to_payload
 from agentkit.runlog import JsonlRunLogSink
-from agentkit.tools.loader import load_tools_from_library
+from agentkit.tools.loader import load_tools_from_entries, load_tools_from_library
 from agentkit.tools.registry import ToolRegistry
 from agentkit.runlog.recorder import RunRecorder
 from agentkit.workspace.fs import WorkspaceFS
@@ -78,9 +78,10 @@ class Agent:
         # Build the configured LLM provider
         provider = build_provider(config.provider)
 
-        # Load tools from the workspace library and register them
+        # Load built-in tools plus any configured external tool entries.
         registry = ToolRegistry()
         registry.register_many(load_tools_from_library(fs))
+        registry.register_many(load_tools_from_entries(config.tools.entries, fs))
 
         # Create tool runtime with allowlist filtering
         tool_runtime = AgentToolRuntime(registry, config.tools.allowed)
