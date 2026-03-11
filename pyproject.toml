@@ -1,6 +1,6 @@
 [project]
 name = "base-agentkit"
-version = "0.1.1"
+version = "0.1.2"
 description = "Workspace-isolated Python framework for building tool-using LLM agents."
 readme = "README.md"
 authors = [{ name = "sii-nyc", email = "253108120111@sii.edu.cn" }]

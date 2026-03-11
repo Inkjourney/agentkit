@@ -1,0 +1,33 @@
+workspace:
+  root: "./vllm_workspace"
+
+provider:
+  kind: "vllm"
+  model: "glm-5" # your model name
+  openai_api_variant: "chat_completions"
+  conversation_mode: "auto"
+  base_url: "http://localhost:8000/v1"
+  api_key: "empty"
+  temperature: 0.8
+  timeout_s: 600
+  retries: 2
+  enable_thinking: true
+
+agent:
+  system_prompt: "You are a helpful agent. Use tools when needed."
+  budget:
+    max_steps: 200
+    time_budget_s: 1800
+    max_input_chars: 180000
+
+tools:
+  allowed:
+    - "view"
+    - "create_file"
+    - "str_replace"
+    - "word_count"
+
+runlog:
+  enabled: true
+  redact: true
+  max_text_chars: 20000
