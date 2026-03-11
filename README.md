@@ -20,7 +20,8 @@ CLI and Python SDK entry points.
   - Qwen (OpenAI-compatible `chat_completions`)
   - vLLM (OpenAI-compatible `chat_completions`)
 - Registry-based tool system with built-in tools under
-  `src/agentkit/tools/library/`
+  `src/agentkit/tools/library/` and custom tool loading from project
+  file/directory entries
 - Agent loop that coordinates model reasoning and tool execution under step/time
   budgets
 - Run logs written to `workspace/logs/run_<run_id>.jsonl`
@@ -36,6 +37,8 @@ CLI and Python SDK entry points.
 ## Documentation
 
 Full documentation lives under `docs/agentkit/`.
+The published site is [GitHub Pages](https://inkjourney.github.io/agentkit/) and
+deploys automatically from pushes to `main`.
 
 ## Install From Source
 
@@ -85,6 +88,8 @@ agent:
     max_input_chars: 180000
 
 tools:
+  entries:
+    - "./tools"
   allowed:
     - "view"
     - "create_file"

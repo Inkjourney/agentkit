@@ -25,6 +25,9 @@ uv run pytest tests/test_fs_tools.py
 uv run mkdocs build --strict
 ```
 
+Documentation changes pushed to `main` are deployed to GitHub Pages by
+`.github/workflows/deploy-docs.yml`.
+
 ## Coding Guidelines
 
 - Keep public APIs stable or document breaking changes.

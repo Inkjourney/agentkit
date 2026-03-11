@@ -122,6 +122,17 @@ class ToolConfig:
     allowed: list[str] = field(default_factory=list)
     entries: list[str] = field(default_factory=list)
 
+    def __post_init__(self) -> None:
+        """Validate allowlist and external entry shapes."""
+        if not isinstance(self.allowed, list) or any(
+            not isinstance(name, str) or not name.strip() for name in self.allowed
+        ):
+            raise ConfigError("tools.allowed must be a list of non-empty strings.")
+        if not isinstance(self.entries, list) or any(
+            not isinstance(entry, str) or not entry.strip() for entry in self.entries
+        ):
+            raise ConfigError("tools.entries must be a list of non-empty strings.")
+
 
 @dataclass(slots=True)
 class RunLogConfig:

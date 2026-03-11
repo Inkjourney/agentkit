@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import pkgutil
+from pathlib import Path
+import textwrap
 from types import SimpleNamespace
 
 import pytest
@@ -11,6 +13,7 @@ from agentkit.tools.loader import (
     TOOLS_LIBRARY_PACKAGE,
     _coerce_to_tools,
     _load_from_module,
+    load_tools_from_entries,
     load_tools_from_library,
 )
 from agentkit.workspace.fs import WorkspaceFS
@@ -23,6 +26,11 @@ def _tool(name: str = "sample") -> Tool:
         parameters={"type": "object", "properties": {}, "required": []},
         handler=lambda _: {"name": name},
     )
+
+
+def _write_module(path: Path, text: str) -> Path:
+    path.write_text(textwrap.dedent(text).strip() + "\n", encoding="utf-8")
+    return path
 
 
 def test_coerce_to_tools_accepts_supported_shapes(workspace_fs: WorkspaceFS) -> None:
@@ -117,3 +125,133 @@ def test_load_tools_from_library_returns_empty_without_package_path(
     )
 
     assert load_tools_from_library(workspace_fs) == []
+
+
+def test_load_tools_from_entries_loads_single_python_file(
+    tmp_path: Path, workspace_fs: WorkspaceFS
+) -> None:
+    module_path = _write_module(
+        tmp_path / "custom_tools.py",
+        """
+        from agentkit.tools.base import FunctionTool
+
+        TOOLS = [
+            FunctionTool(
+                name="slugify",
+                description="Slugify text",
+                parameters={
+                    "type": "object",
+                    "properties": {"text": {"type": "string"}},
+                    "required": ["text"],
+                    "additionalProperties": False,
+                },
+                handler=lambda args: {"slug": args["text"].lower().replace(" ", "-")},
+            )
+        ]
+        """,
+    )
+
+    loaded = load_tools_from_entries([module_path], workspace_fs)
+
+    assert [tool.name for tool in loaded] == ["slugify"]
+
+
+def test_load_tools_from_entries_discovers_python_modules_in_directory(
+    tmp_path: Path, workspace_fs: WorkspaceFS
+) -> None:
+    tools_dir = tmp_path / "tools"
+    tools_dir.mkdir()
+    _write_module(
+        tools_dir / "_helpers.py",
+        """
+        def unused() -> str:
+            return "helper"
+        """,
+    )
+    _write_module(
+        tools_dir / "beta.py",
+        """
+        from agentkit.tools.base import FunctionTool
+
+        TOOLS = [
+            FunctionTool(
+                name="beta_tool",
+                description="Beta",
+                parameters={"type": "object", "properties": {}, "required": []},
+                handler=lambda _args: {"ok": "beta"},
+            )
+        ]
+        """,
+    )
+    _write_module(
+        tools_dir / "alpha.py",
+        """
+        from agentkit.tools.base import FunctionTool
+
+        TOOLS = [
+            FunctionTool(
+                name="alpha_tool",
+                description="Alpha",
+                parameters={"type": "object", "properties": {}, "required": []},
+                handler=lambda _args: {"ok": "alpha"},
+            )
+        ]
+        """,
+    )
+
+    loaded = load_tools_from_entries([tools_dir], workspace_fs)
+
+    assert [tool.name for tool in loaded] == ["alpha_tool", "beta_tool"]
+
+
+def test_load_tools_from_entries_supports_relative_imports_within_directory(
+    tmp_path: Path, workspace_fs: WorkspaceFS
+) -> None:
+    tools_dir = tmp_path / "tools"
+    tools_dir.mkdir()
+    _write_module(
+        tools_dir / "_shared.py",
+        """
+        def slugify(text: str) -> str:
+            return text.strip().lower().replace(" ", "-")
+        """,
+    )
+    _write_module(
+        tools_dir / "slugify.py",
+        """
+        from agentkit.tools.base import FunctionTool
+        from ._shared import slugify
+
+        def run(args: dict[str, str]) -> dict[str, str]:
+            return {"slug": slugify(args["text"])}
+
+        TOOLS = [
+            FunctionTool(
+                name="slugify",
+                description="Slugify text",
+                parameters={
+                    "type": "object",
+                    "properties": {"text": {"type": "string"}},
+                    "required": ["text"],
+                    "additionalProperties": False,
+                },
+                handler=run,
+            )
+        ]
+        """,
+    )
+
+    loaded = load_tools_from_entries([tools_dir], workspace_fs)
+    outcome = loaded[0].run({"text": "Agent Kit"})
+
+    assert [tool.name for tool in loaded] == ["slugify"]
+    assert outcome == {"slug": "agent-kit"}
+
+
+def test_load_tools_from_entries_rejects_missing_path(
+    tmp_path: Path, workspace_fs: WorkspaceFS
+) -> None:
+    missing = tmp_path / "missing.py"
+
+    with pytest.raises(ToolError, match="Tool entry not found"):
+        load_tools_from_entries([missing], workspace_fs)

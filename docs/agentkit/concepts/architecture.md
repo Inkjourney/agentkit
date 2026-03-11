@@ -25,7 +25,7 @@ graph TD
     CLI["CLI / Python SDK"] --> Loader["load_config / create_agent / Agent.from_config"]
     Loader --> WS["init_workspace_layout + WorkspaceFS"]
     Loader --> Provider["build_provider(config.provider)"]
-    Loader --> Registry["ToolRegistry + load_tools_from_library"]
+    Loader --> Registry["ToolRegistry + built-in loader + tools.entries loader"]
     Loader --> Runtime["AgentToolRuntime(allowed_tools)"]
     Loader --> Sink["JsonlRunLogSink"]
     WS --> Agent["Agent.run(task)"]
@@ -78,7 +78,7 @@ These are the current top-level modules under `src/agentkit/`:
 
 1. Config is loaded and validated into dataclasses.
 2. `Agent.from_config` creates the workspace root, provider, tool registry, tool runtime, and JSONL sink.
-3. The built-in tool library is always loaded into the registry, then filtered by `tools.allowed`.
+3. The built-in tool library and any configured `tools.entries` are loaded into the registry, then filtered by `tools.allowed`.
 4. `Agent.run` creates a `RunRecorder` with two sinks: `RunReportProjector` and `JsonlRunLogSink`.
 5. Each iteration builds a `UnifiedLLMRequest` from the current `ConversationState` plus pending inputs.
 6. The provider returns a `UnifiedLLMResponse` containing assistant text, reasoning items, and optional tool calls.
@@ -88,8 +88,9 @@ These are the current top-level modules under `src/agentkit/`:
 ## Architectural Notes
 
 !!! note
-    `Agent.from_config` always loads the modules under `agentkit.tools.library`,
-    but the model only sees tools that appear in `config.tools.allowed`.
+    `Agent.from_config` always loads the built-in modules under
+    `agentkit.tools.library` and any configured `tools.entries`, but the model
+    only sees tools that appear in `config.tools.allowed`.
 
 !!! note
     The current codebase has no public `context` package. Earlier documentation

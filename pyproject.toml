@@ -30,7 +30,7 @@ agentkit = "agentkit.cli.main:main"
 [project.urls]
 Homepage = "https://github.com/Inkjourney/agentkit"
 Repository = "https://github.com/Inkjourney/agentkit"
-Documentation = "https://github.com/Inkjourney/agentkit/tree/main/docs/agentkit"
+Documentation = "https://inkjourney.github.io/agentkit/"
 Issues = "https://github.com/Inkjourney/agentkit/issues"
 
 [dependency-groups]
