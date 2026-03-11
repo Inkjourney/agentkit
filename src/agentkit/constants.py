@@ -13,6 +13,11 @@ DEFAULT_TIME_BUDGET_S = 300
 DEFAULT_MAX_INPUT_CHARS = 20_000
 
 SENSITIVE_KEYS: tuple[str, ...] = (
+    "access_token",
     "api_key",
     "apikey",
+    "authorization",
+    "password",
+    "refresh_token",
+    "secret",
 )
